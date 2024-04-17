@@ -14,6 +14,6 @@ public class TestController {
     @GetMapping("")
     @ResponseBody
     public String createUserPage(Model model) {
-        return "<h1>Welcome to Authentication & User Profile!</h1>";
+        return "<h1>Welcome to Authentication & User Profile!!</h1>";
     }
 }
