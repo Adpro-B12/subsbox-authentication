@@ -26,8 +26,8 @@ WORKDIR /app
 
 RUN ls -al
 
-COPY ./authentication-user-profile-0.0.1-SNAPSHOT.jar /app
+COPY ./AuthenticationUserProfile-0.0.1-SNAPSHOT.jar /app
 
 EXPOSE 8080
 
-CMD ["java","-jar","authentication-user-profile-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","AuthenticationUserProfile-0.0.1-SNAPSHOT.jar"]
