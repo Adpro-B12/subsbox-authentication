@@ -16,10 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
@@ -55,18 +57,21 @@ public class UserControllerTest {
 
     @Test
     public void testRegisterUser() throws Exception {
-        given(userService.registerNewUser(any(User.class))).willReturn(user);
+        given(userService.registerNewUser(any(User.class)))
+                .willReturn(CompletableFuture.completedFuture(user));
 
         mockMvc.perform(post("/api/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(user.getId().toString()));
+                .andExpect(jsonPath("$.id").value(user.getId().toString()))
+                .andDo(print());
     }
 
     @Test
     public void testUpdateUser() throws Exception {
-        given(userService.updateUser(any(User.class))).willReturn(user);
+        given(userService.updateUser(any(User.class)))
+                .willReturn(CompletableFuture.completedFuture(user));
 
         mockMvc.perform(put("/api/users/update")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -77,13 +82,17 @@ public class UserControllerTest {
 
     @Test
     public void testDeleteUser() throws Exception {
+        given(userService.deleteUser(any(UUID.class)))
+                .willReturn(CompletableFuture.completedFuture(null));
+
         mockMvc.perform(delete("/api/users/delete/" + userId.toString()))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testGetUserByEmail() throws Exception {
-        given(userService.getUserByEmail(any(String.class))).willReturn(user);
+        given(userService.getUserByEmail(any(String.class)))
+                .willReturn(CompletableFuture.completedFuture(user));
 
         mockMvc.perform(get("/api/users/" + user.getEmail()))
                 .andExpect(status().isOk())

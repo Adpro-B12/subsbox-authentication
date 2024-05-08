@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,7 +49,8 @@ public class UserServiceImplTest {
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User registeredUser = userService.registerNewUser(user);
+        CompletableFuture<User> future = userService.registerNewUser(user);
+        User registeredUser = future.join();
 
         assertEquals(userId, registeredUser.getId());
         assertEquals("encodedPassword", registeredUser.getPassword());
@@ -60,8 +62,8 @@ public class UserServiceImplTest {
         when(userRepository.findById(any(UUID.class))).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        user.setFullName("Updated Test User");
-        User updatedUser = userService.updateUser(user);
+        CompletableFuture<User> future = userService.updateUser(user);
+        User updatedUser = future.join();
 
         assertEquals("Updated Test User", updatedUser.getFullName());
         verify(userRepository, times(1)).save(user);
@@ -80,7 +82,8 @@ public class UserServiceImplTest {
     void whenGetUserByEmail_thenReturnUser() {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
 
-        User foundUser = userService.getUserByEmail("test@example.com");
+        CompletableFuture<User> future = userService.getUserByEmail("test@example.com");
+        User foundUser = future.join();
 
         assertEquals("test@example.com", foundUser.getEmail());
         verify(userRepository, times(1)).findByEmail("test@example.com");
