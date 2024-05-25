@@ -99,4 +99,10 @@ public class UserController {
         userService.deleteProfile(username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Object> logout() {
+        SecurityContextHolder.clearContext();
+        return new ResponseEntity<>("Logout successful.", HttpStatus.OK);
+    }
 }
