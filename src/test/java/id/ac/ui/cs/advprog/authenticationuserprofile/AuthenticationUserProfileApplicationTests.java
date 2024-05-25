@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles("test")
+@ActiveProfiles("test") // Change this line
 @SpringBootTest
 class AuthenticationUserProfileApplicationTests {
 
