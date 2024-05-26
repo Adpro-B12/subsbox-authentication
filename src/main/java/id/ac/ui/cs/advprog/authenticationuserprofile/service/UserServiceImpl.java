@@ -109,4 +109,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         userRepository.delete(user);
     }
+
+    @Override
+    public String getUserRole(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return user.getRole().name();
+    }
 }

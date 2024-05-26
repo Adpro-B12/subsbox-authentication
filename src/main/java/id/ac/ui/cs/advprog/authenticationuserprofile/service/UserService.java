@@ -14,4 +14,5 @@ public interface UserService {
     UserProfileDTO getProfileByUsername(String username);
     UserProfileDTO updateProfile(String username, UserProfileDTO profile);
     void deleteProfile(String username);
+    public String getUserRole(String username);
 }

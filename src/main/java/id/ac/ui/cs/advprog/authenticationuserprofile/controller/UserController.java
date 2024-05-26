@@ -12,7 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -98,5 +101,12 @@ public class UserController {
     public ResponseEntity<Void> deleteProfile(@PathVariable String username) {
         userService.deleteProfile(username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/getrole")
+    public ResponseEntity<String> getUserRole(@RequestBody Map<String, String> requestBody) {
+        String username = requestBody.get("username");
+        String role = userService.getUserRole(username);
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
 }
