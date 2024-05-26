@@ -103,6 +103,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Object> logout() {
+        SecurityContextHolder.clearContext();
+        return new ResponseEntity<>("Logout successful.", HttpStatus.OK);
+
+    }
+
     @GetMapping("/getrole")
     public ResponseEntity<String> getUserRole(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
