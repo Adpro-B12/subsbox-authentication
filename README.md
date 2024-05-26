@@ -7,3 +7,7 @@
 
 ## Profiling with intellij
 ![Profiling](image/Profiling.jpg)
+
+## Tasks Test with Jacoco
+![Package](image/TasksTest%20Package.jpg)
+![Class](image/TasksTest%20Class.jpg)
